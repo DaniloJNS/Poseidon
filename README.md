@@ -4,7 +4,7 @@ O Poseidon é um aplicativo de produtividade focado em gestão e rastreamento de
 
 # Funcionalidades
 
-- Gestão de tarefas por contexto, sistema de tag e timeboxing.
+- Gestão de tarefas por projeto com sistema de tag e timeboxing.
 - Pomodoro com tempo ajustável e possibilidade de ser vinculado a uma tarefa para o rastreamento do tempo gasto.
 - Quadro estilo Kanban para acompanhamento e manipulação das tarefas.
 - Calendario.
