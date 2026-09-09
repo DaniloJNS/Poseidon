@@ -10,6 +10,8 @@ O Poseidon é um aplicativo de produtividade focado em gestão e rastreamento de
 - Calendario.
 - Dashboard para visualização das tarefas concluídas por semana ou mês, tempo médio gasto, etc.
 
+Mais funcionalidades serão desenvolvidas e apontadas nesta seção conforme o desenvolvimento do projeto.
+
 # Setup
 
 To start your Phoenix server:
