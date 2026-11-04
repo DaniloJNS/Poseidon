@@ -14,16 +14,29 @@ defmodule PoseidonWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # Exige "authorization: Bearer <jwt>" e atribui :current_user
+  pipeline :auth do
+    plug PoseidonWeb.Plugs.Auth
+  end
+
   scope "/", PoseidonWeb do
     pipe_through :browser
 
     get "/", PageController, :home
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", PoseidonWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", PoseidonWeb do
+    pipe_through :api
+
+    post "/users", UserController, :create
+    post "/login", SessionController, :create
+  end
+
+  scope "/api", PoseidonWeb do
+    pipe_through [:api, :auth]
+
+    resources "/projects", ProjectController, except: [:new, :edit]
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:poseidon, :dev_routes) do

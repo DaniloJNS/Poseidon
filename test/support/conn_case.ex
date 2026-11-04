@@ -35,4 +35,21 @@ defmodule PoseidonWeb.ConnCase do
     Poseidon.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
+
+  @doc """
+  Cadastra um usuário e coloca o JWT dele no header `authorization` da conn.
+
+      setup :register_and_log_in_user
+  """
+  def register_and_log_in_user(%{conn: conn}) do
+    user = Poseidon.AccountsFixtures.user_fixture()
+    {:ok, token, _claims} = Poseidon.Auth.Token.generate_and_sign(%{"sub" => user.id})
+
+    conn =
+      conn
+      |> Plug.Conn.put_req_header("accept", "application/json")
+      |> Plug.Conn.put_req_header("authorization", "Bearer " <> token)
+
+    %{conn: conn, user: user}
+  end
 end

@@ -70,6 +70,11 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
+  config :joken,
+    default_signer:
+      System.get_env("JWT_SECRET") ||
+        raise("environment variable JWT_SECRET is missing (generate with: mix phx.gen.secret)")
+
   host = System.get_env("PHX_HOST") || "example.com"
 
   config :poseidon, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
