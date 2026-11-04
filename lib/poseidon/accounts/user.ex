@@ -43,7 +43,7 @@ defmodule Poseidon.Accounts.User do
   defp put_password_hash(%Ecto.Changeset{valid?: true, changes: %{password: pw}} = changeset) do
     pw
     |> Pbkdf2.hash_pwd_salt(digest: :sha512)
-    |> then(& put_change(changeset, :hashed_password, &1))
+    |> then(&put_change(changeset, :hashed_password, &1))
     |> delete_change(:password)
   end
 

@@ -7,7 +7,13 @@ defmodule PoseidonWeb.ApiSpecTest do
     assert Map.has_key?(paths, "/api/login")
     assert Map.has_key?(paths, "/api/users")
     assert Map.keys(paths["/api/projects"]) |> Enum.sort() == ["get", "post"]
-    assert Map.keys(paths["/api/projects/{id}"]) |> Enum.sort() == ["delete", "get", "patch", "put"]
+
+    assert Map.keys(paths["/api/projects/{id}"]) |> Enum.sort() == [
+             "delete",
+             "get",
+             "patch",
+             "put"
+           ]
   end
 
   test "GET /swaggerui renderiza o Swagger UI", %{conn: conn} do

@@ -7,26 +7,47 @@ O Poseidon é um aplicativo de produtividade focado em gestão e rastreamento de
 - Gestão de tarefas por projeto com sistema de tag e timeboxing.
 - Pomodoro com tempo ajustável e possibilidade de ser vinculado a uma tarefa para o rastreamento do tempo gasto.
 - Quadro estilo Kanban para acompanhamento e manipulação das tarefas.
-- Calendario.
+- Calendário.
 - Dashboard para visualização das tarefas concluídas por semana ou mês, tempo médio gasto, etc.
 
 Mais funcionalidades serão desenvolvidas e apontadas nesta seção conforme o desenvolvimento do projeto.
 
-# Setup
+# Entrega 1
 
-To start your Phoenix server:
+| Documentação | Localização |
+|---|---|
+| UML | [`docs/modelagem.md`](docs/modelagem.md) |
+| Script do banco de dados | [`priv/repo/structure.sql`](priv/repo/structure.sql), feito a partir das migrations do próprio Phoenix [`priv/repo/migrations`](priv/repo/migrations) |
+| Login | `POST /api/login`, devolve um token JWT válido por 24 horas |
+| CRUD da entidade Projetos | Projetos em `/api/projects` aceitando o padrão REST, é obrigatória a passagem do token JWT válido por bearer token nos headers |
+| Documentação da API | Swagger UI em [`/swaggerui`](http://localhost:4000/swaggerui), a spec no formato OpenAPI está em `/api/openapi` |
 
-* Run `mix setup` to install and setup dependencies
-* Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+## Endpoints
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+| Método | Rota | Autenticação | Descrição |
+|---|---|---|---|
+| `POST` | `/api/users` | não | Cadastro de usuário |
+| `POST` | `/api/login` | não | Login |
+| `GET` | `/api/projects` | Bearer | Lista os projetos que pertencem ao usuário |
+| `POST` | `/api/projects` | Bearer | Cria um projeto |
+| `GET` | `/api/projects/:id` | Bearer | Busca um projeto |
+| `PUT`/`PATCH` | `/api/projects/:id` | Bearer | Atualiza um projeto |
+| `DELETE` | `/api/projects/:id` | Bearer | Apaga um projeto |
 
-Ready to run in production? Please [check our deployment guides](https://phoenix.hexdocs.pm/deployment.html).
+# Como rodar
 
-## Learn more
+```sh
+docker compose up -d   # sobe o PostgreSQL (opcional, se já tiver um local)
+mix setup              # instala dependências, cria o banco, roda as migrations e a seed
+mix phx.server
+```
 
-* Official website: https://www.phoenixframework.org/
-* Guides: https://phoenix.hexdocs.pm/overview.html
-* Docs: https://phoenix.hexdocs.pm
-* Forum: https://elixirforum.com/c/phoenix-forum
-* Source: https://github.com/phoenixframework/phoenix
+A API fica em [`localhost:4000`](http://localhost:4000) e a documentação em [`localhost:4000/swaggerui`](http://localhost:4000/swaggerui).
+
+Usuário criado pela seed: `demo@poseidon.dev` / `poseidon123`.
+
+Para rodar os testes use o comando abaixo:
+
+```sh
+mix test
+```

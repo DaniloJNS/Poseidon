@@ -21,7 +21,11 @@ defmodule PoseidonWeb.Schemas.UserRequest do
     },
     required: [:user],
     example: %{
-      "user" => %{"name" => "Danilo", "email" => "danilo@example.com", "password" => "poseidon123"}
+      "user" => %{
+        "name" => "Danilo",
+        "email" => "danilo@example.com",
+        "password" => "poseidon123"
+      }
     }
   })
 end

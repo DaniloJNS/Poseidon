@@ -13,6 +13,11 @@ defmodule PoseidonWeb.Schemas.ChangesetErrors do
       }
     },
     required: [:errors],
-    example: %{"errors" => %{"email" => ["formato inválido"], "password" => ["should be at least 8 character(s)"]}}
+    example: %{
+      "errors" => %{
+        "email" => ["formato inválido"],
+        "password" => ["should be at least 8 character(s)"]
+      }
+    }
   })
 end

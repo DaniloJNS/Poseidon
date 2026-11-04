@@ -21,7 +21,14 @@ defmodule Poseidon.AccountsTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{name: "some name", language: "some language", birthdate: ~D[2026-11-03], timezone: "some timezone", email: "user@example.com", password: "poseidon123"}
+      valid_attrs = %{
+        name: "some name",
+        language: "some language",
+        birthdate: ~D[2026-11-03],
+        timezone: "some timezone",
+        email: "user@example.com",
+        password: "poseidon123"
+      }
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
       assert user.name == "some name"
@@ -38,7 +45,14 @@ defmodule Poseidon.AccountsTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
-      update_attrs = %{name: "some updated name", language: "some updated language", birthdate: ~D[2026-11-04], timezone: "some updated timezone", email: "updated@example.com"}
+
+      update_attrs = %{
+        name: "some updated name",
+        language: "some updated language",
+        birthdate: ~D[2026-11-04],
+        timezone: "some updated timezone",
+        email: "updated@example.com"
+      }
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
       assert user.name == "some updated name"

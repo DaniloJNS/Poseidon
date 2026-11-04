@@ -7,8 +7,7 @@ defmodule Poseidon.Repo.Migrations.CreateProjects do
       add :name, :string, null: false
 
       # ON DELETE is dangerous when an large row sets are deleted in an single action
-      add :user_id, references(:users, on_delete: :nothing, type: :binary_id),
-        null: false
+      add :user_id, references(:users, on_delete: :nothing, type: :binary_id), null: false
 
       timestamps()
     end

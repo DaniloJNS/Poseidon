@@ -8,15 +8,16 @@ defmodule PoseidonWeb.SessionController do
 
   action_fallback PoseidonWeb.FallbackController
 
-  tags ["Autenticação"]
+  tags(["Autenticação"])
 
-  operation :create,
+  operation(:create,
     summary: "Login: troca email e senha por um JWT",
     request_body: {"Credenciais", "application/json", Schemas.LoginRequest, required: true},
     responses: [
       ok: {"Token de acesso", "application/json", Schemas.TokenResponse},
       unauthorized: {"Credenciais inválidas", "application/json", Schemas.ErrorResponse}
     ]
+  )
 
   def create(conn, %{"email" => email, "password" => password}) do
     with {:ok, user} <- Accounts.authenticate(email, password),

@@ -53,7 +53,6 @@ defmodule Poseidon.Accounts do
   def get_user(id) do
     case Repo.get(User, id) do
       nil -> {:error, :user_not_found}
-
       user -> {:ok, user}
     end
   end

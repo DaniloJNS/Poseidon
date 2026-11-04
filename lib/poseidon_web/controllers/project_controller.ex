@@ -10,23 +10,24 @@ defmodule PoseidonWeb.ProjectController do
 
   # current_user é atribuído pelo PoseidonWeb.Plugs.Auth (pipeline :auth no router)
 
-  tags ["Projetos"]
-  security [%{"bearerAuth" => []}]
+  tags(["Projetos"])
+  security([%{"bearerAuth" => []}])
 
   @id_param [id: [in: :path, type: :string, required: true, description: "ID do projeto (UUID)"]]
   @unauthorized {"Token ausente ou inválido", "application/json", Schemas.ErrorResponse}
   @not_found {"Projeto não encontrado ou de outro usuário", "application/json",
-               Schemas.ErrorResponse}
+              Schemas.ErrorResponse}
   @invalid {"Dados inválidos", "application/json", Schemas.ChangesetErrors}
 
-  operation :index,
+  operation(:index,
     summary: "Lista os projetos do usuário logado",
     responses: [
       ok: {"Projetos", "application/json", Schemas.ProjectListResponse},
       unauthorized: @unauthorized
     ]
+  )
 
-  operation :create,
+  operation(:create,
     summary: "Cria um projeto para o usuário logado",
     request_body: {"Projeto", "application/json", Schemas.ProjectRequest, required: true},
     responses: [
@@ -34,8 +35,9 @@ defmodule PoseidonWeb.ProjectController do
       unprocessable_entity: @invalid,
       unauthorized: @unauthorized
     ]
+  )
 
-  operation :show,
+  operation(:show,
     summary: "Detalha um projeto",
     parameters: @id_param,
     responses: [
@@ -43,8 +45,9 @@ defmodule PoseidonWeb.ProjectController do
       not_found: @not_found,
       unauthorized: @unauthorized
     ]
+  )
 
-  operation :update,
+  operation(:update,
     summary: "Atualiza um projeto",
     parameters: @id_param,
     request_body: {"Projeto", "application/json", Schemas.ProjectRequest, required: true},
@@ -54,8 +57,9 @@ defmodule PoseidonWeb.ProjectController do
       not_found: @not_found,
       unauthorized: @unauthorized
     ]
+  )
 
-  operation :delete,
+  operation(:delete,
     summary: "Remove um projeto",
     parameters: @id_param,
     responses: [
@@ -63,6 +67,7 @@ defmodule PoseidonWeb.ProjectController do
       not_found: @not_found,
       unauthorized: @unauthorized
     ]
+  )
 
   def index(conn, _params) do
     projects = Projects.list_projects(conn.assigns.current_user)
