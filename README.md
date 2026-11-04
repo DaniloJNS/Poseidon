@@ -16,11 +16,11 @@ Mais funcionalidades serão desenvolvidas e apontadas nesta seção conforme o d
 
 | Documentação | Localização |
 |---|---|
-| UML | [`docs/modelagem.md`](docs/modelagem.md) |
+| UML | [`docs/modelagem.drawio`](docs/modelagem.drawio) |
 | Script do banco de dados | [`priv/repo/structure.sql`](priv/repo/structure.sql), feito a partir das migrations do próprio Phoenix [`priv/repo/migrations`](priv/repo/migrations) |
 | Login | `POST /api/login`, devolve um token JWT válido por 24 horas |
-| CRUD da entidade Projetos | Projetos em `/api/projects` aceitando o padrão REST, é obrigatória a passagem do token JWT válido por bearer token nos headers |
-| Documentação da API | Swagger UI em [`/swaggerui`](http://localhost:4000/swaggerui), a spec no formato OpenAPI está em `/api/openapi` |
+| CRUD da entidade Projetos | Projetos em `/api/projects` aceitando o padrão REST sendo obrigatória a passagem do token JWT válido no formato bearer |
+| Documentação da API | Swagger UI em [`/swaggerui`](http://localhost:4000/swaggerui) e a spec no formato OpenAPI está em `/api/openapi` |
 
 ## Endpoints
 
@@ -37,8 +37,8 @@ Mais funcionalidades serão desenvolvidas e apontadas nesta seção conforme o d
 # Como rodar
 
 ```sh
-docker compose up -d   # sobe o PostgreSQL (opcional, se já tiver um local)
-mix setup              # instala dependências, cria o banco, roda as migrations e a seed
+docker compose up -d   # sobe o PostgreSQL
+mix setup              # instala dependências, cria o banco, roda as migrations e os seeds
 mix phx.server
 ```
 
