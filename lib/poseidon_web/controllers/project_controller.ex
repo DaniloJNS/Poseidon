@@ -1,12 +1,68 @@
 defmodule PoseidonWeb.ProjectController do
   use PoseidonWeb, :controller
+  use OpenApiSpex.ControllerSpecs
 
   alias Poseidon.Projects
   alias Poseidon.Projects.Project
+  alias PoseidonWeb.Schemas
 
   action_fallback PoseidonWeb.FallbackController
 
   # current_user é atribuído pelo PoseidonWeb.Plugs.Auth (pipeline :auth no router)
+
+  tags ["Projetos"]
+  security [%{"bearerAuth" => []}]
+
+  @id_param [id: [in: :path, type: :string, required: true, description: "ID do projeto (UUID)"]]
+  @unauthorized {"Token ausente ou inválido", "application/json", Schemas.ErrorResponse}
+  @not_found {"Projeto não encontrado ou de outro usuário", "application/json",
+               Schemas.ErrorResponse}
+  @invalid {"Dados inválidos", "application/json", Schemas.ChangesetErrors}
+
+  operation :index,
+    summary: "Lista os projetos do usuário logado",
+    responses: [
+      ok: {"Projetos", "application/json", Schemas.ProjectListResponse},
+      unauthorized: @unauthorized
+    ]
+
+  operation :create,
+    summary: "Cria um projeto para o usuário logado",
+    request_body: {"Projeto", "application/json", Schemas.ProjectRequest, required: true},
+    responses: [
+      created: {"Projeto criado", "application/json", Schemas.ProjectResponse},
+      unprocessable_entity: @invalid,
+      unauthorized: @unauthorized
+    ]
+
+  operation :show,
+    summary: "Detalha um projeto",
+    parameters: @id_param,
+    responses: [
+      ok: {"Projeto", "application/json", Schemas.ProjectResponse},
+      not_found: @not_found,
+      unauthorized: @unauthorized
+    ]
+
+  operation :update,
+    summary: "Atualiza um projeto",
+    parameters: @id_param,
+    request_body: {"Projeto", "application/json", Schemas.ProjectRequest, required: true},
+    responses: [
+      ok: {"Projeto atualizado", "application/json", Schemas.ProjectResponse},
+      unprocessable_entity: @invalid,
+      not_found: @not_found,
+      unauthorized: @unauthorized
+    ]
+
+  operation :delete,
+    summary: "Remove um projeto",
+    parameters: @id_param,
+    responses: [
+      no_content: "Projeto removido",
+      not_found: @not_found,
+      unauthorized: @unauthorized
+    ]
 
   def index(conn, _params) do
     projects = Projects.list_projects(conn.assigns.current_user)

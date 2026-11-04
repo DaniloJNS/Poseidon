@@ -12,6 +12,7 @@ defmodule PoseidonWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug OpenApiSpex.Plug.PutApiSpec, module: PoseidonWeb.ApiSpec
   end
 
   # Exige "authorization: Bearer <jwt>" e atribui :current_user
@@ -36,6 +37,19 @@ defmodule PoseidonWeb.Router do
     pipe_through [:api, :auth]
 
     resources "/projects", ProjectController, except: [:new, :edit]
+  end
+
+  # Documentação. Sem o alias PoseidonWeb no scope, senão vira PoseidonWeb.OpenApiSpex...
+  scope "/api" do
+    pipe_through :api
+
+    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+  end
+
+  scope "/" do
+    pipe_through :browser
+
+    get "/swaggerui", OpenApiSpex.Plug.SwaggerUI, path: "/api/openapi"
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
